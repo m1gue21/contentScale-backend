@@ -1,7 +1,11 @@
+import stripe
 from chalice import Chalice
 import json
 from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, NumberAttribute
+import os
+import openai
+
 
 app = Chalice(app_name='helloworld')
 
@@ -80,6 +84,9 @@ def delete_user():
         return {"error": f"'{user_as_json['username']}' is not an existing user."}
 
 
+
+
+
 # Customer Portal Route
 @app.route("/customerportal", methods=["GET"])
 def costumer_portal():
@@ -114,4 +121,34 @@ def checkout():
 def execution():
     stripe.api_key = os.environ["STRIPE_APIKEY"]
 
-    return app.current_request.json_body
+    openai.api_key = os.environ["OPENAI_APIKEY"]
+    body = app.current_request.json_body
+
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system",
+             "content": "You are a content manager from a blog, you are gonna edit the provided content based on an action and a condition"},
+            {"role": "system",
+             "content": "if the evaluated condition is False, you will return only 'False' and no more text or explanations"},
+            {"role": "system",
+             "content": "if the evaluated condition is True, you will perform the requested action into the provided content"},
+            {"role": "user", "content": f"""
+                condition: {body['condition']}
+            """
+            },
+            {"role": "user", "content": f"""
+                    action: {body['action']} 
+                """
+             },
+            {"role": "user", "content": f"""
+                content: {body['content']}
+                """
+             },
+
+        ]
+    )
+
+    print(completion.choices[0].message)
+
+    return completion.choices[0].message
