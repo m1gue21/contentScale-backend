@@ -78,3 +78,40 @@ def delete_user():
         return user_as_json
     except User.DoesNotExist:
         return {"error": f"'{user_as_json['username']}' is not an existing user."}
+
+
+# Customer Portal Route
+@app.route("/customerportal", methods=["GET"])
+def costumer_portal():
+    stripe.api_key = os.environ["STRIPE_APIKEY"]
+
+    print(stripe.billing_portal.Session.create(
+        customer=os.environ["CUSTOMER"],
+        return_url="https://google.com",
+    ))
+
+
+# Checkout Portal Route
+@app.route("/checkout", methods=["GET"])
+def checkout():
+    stripe.api_key = os.environ["STRIPE_APIKEY"]
+
+    return stripe.checkout.Session.create(
+        success_url="https://google.com",
+        line_items=[
+            {
+                "price": os.environ["PRICE"],
+                "quantity": 1,
+            },
+        ],
+        customer_email=os.environ["CUSTOMER_EMAIL"],
+        mode="subscription",
+    )
+
+
+# Execution Portal Route
+@app.route("/execution", methods=["POST"])
+def execution():
+    stripe.api_key = os.environ["STRIPE_APIKEY"]
+
+    return app.current_request.json_body
