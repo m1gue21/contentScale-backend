@@ -1,0 +1,40 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+      {
+      "Sid": "VisualEditor1",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateNetworkInterface",
+        "logs:CreateLogStream",
+        "lambda:InvokeFunction",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DeleteNetworkInterface",
+        "ec2:UnassignPrivateIpAddresses",
+        "ec2:AssignPrivateIpAddresses",
+        "logs:CreateLogGroup",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    },
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:CreateLogGroup",
+				"logs:CreateLogStream",
+				"logs:PutLogEvents"
+			],
+			"Resource": "arn:*:logs:*:*:*"
+		},
+		{
+			"Sid": "dynamo",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:*"
+			],
+			"Resource": [
+				"arn:aws:dynamodb:us-east-1:065307860128:table/users_table"
+			]
+		}
+	]
+}

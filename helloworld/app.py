@@ -125,7 +125,7 @@ def execution():
     body = app.current_request.json_body
 
     completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=[
             {"role": "system",
              "content": "You are a content manager from a blog, you are gonna edit the provided content based on an action and a condition"},
