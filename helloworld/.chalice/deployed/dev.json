@@ -1,10 +1,10 @@
 {
   "resources": [
     {
-      "name": "default-role",
+      "name": "api_handler_role",
       "resource_type": "iam_role",
-      "role_arn": "arn:aws:iam::065307860128:role/helloworld-dev",
-      "role_name": "helloworld-dev"
+      "role_arn": "arn:aws:iam::065307860128:role/helloworld-dev-api_handler",
+      "role_name": "helloworld-dev-api_handler"
     },
     {
       "name": "api_handler",

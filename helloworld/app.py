@@ -150,5 +150,6 @@ def execution():
     )
 
     print(completion.choices[0].message)
+    print(app.current_request.json_body)
 
     return completion.choices[0].message
