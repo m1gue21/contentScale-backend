@@ -62,7 +62,7 @@ def execution():
     body = app.current_request.json_body
 
     completion = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-3.5-turbo",
         messages=[
             {"role": "system",
              "content": "You are a content manager from a blog, you are gonna edit the provided content based on an action and a condition"},
@@ -88,5 +88,4 @@ def execution():
 
     print(completion.choices[0].message)
     print(app.current_request.json_body)
-
     return completion.choices[0].message
