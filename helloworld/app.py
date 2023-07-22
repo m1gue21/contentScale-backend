@@ -60,7 +60,7 @@ def execution():
 
     openai.api_key = os.environ["OPENAI_APIKEY"]
     body = app.current_request.json_body
-
+    """
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
@@ -70,22 +70,17 @@ def execution():
              "content": "if the evaluated condition is False, you will return only 'False' and no more text or explanations"},
             {"role": "system",
              "content": "if the evaluated condition is True, you will perform the requested action into the provided content"},
-            {"role": "user", "content": f"""
-                condition: {body['condition']}
-            """
+            {"role": "user", "content": f"condition: {body['condition']}"
             },
-            {"role": "user", "content": f"""
-                    action: {body['action']} 
-                """
+            {"role": "user", "content": f"action: {body['action']}"
              },
-            {"role": "user", "content": f"""
-                content: {body['content']}
-                """
+            {"role": "user", "content": f"content: {body['content']}"
              },
 
         ]
     )
+    """
 
-    print(completion.choices[0].message)
+    # print(completion.choices[0].message)
     print(app.current_request.json_body)
-    return completion.choices[0].message
+    return app.current_request.json_body
